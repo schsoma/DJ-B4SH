@@ -1,0 +1,58 @@
+#!/bin/bash
+
+function music() {
+  clear
+  export DISPLAY=:0
+  google-chrome $1 & &> /dev/null
+  clear
+  Cyan='\e[0;96m'
+  Red='\e[0;31m'
+  Green='\e[0;32m'
+  Blue='\e[0;34m'
+  Yellow='\e[0;93m'
+  cOFF='\e[0m'
+  while true
+  do
+    clear
+    echo -e "${Cyan}+---------------------------+"
+    echo -e "| IR109 - a csirkek radioja |"
+    echo -e "| FM 14.04       DJ Bash    |"
+    echo -e "+---------------------------+${cOFF}"
+    echo -e " | ${Green}Hangero:\t [ + / - ]${cOFF} |"
+    echo -e " | ${Red}Csondet!:\t [   s   ]${cOFF} |"
+    echo -e " | ${Red}Kilepes:\t [   q   ]${cOFF} |"
+    echo -e " | ${Yellow}Uj zene:\t [   n   ]${cOFF} |"
+    read -s -r -n1 CHAR
+    case $CHAR in
+       +|-)
+           amixer -q sset Master 3%$CHAR
+           ;;
+       s)
+           kill -9 $(ps aux | grep "[c]hrome" | awk '{print $2}')
+           ;;
+       q)
+           kill -9 $(ps aux | grep "[c]hrome" | awk '{print $2}')
+	   clear
+           return
+           ;;
+       n)
+           echo "Kérem az új zene URL-jét: "
+           read NEW_URL
+           for VOL in `seq 0 10`
+           do
+              amixer -q sset Master 3%-
+              sleep 0.25
+           done
+           kill -9 $(ps aux | grep "[c]hrome" | awk '{print $2}')
+           amixer -q sset Master 30%+
+           google-chrome $NEW_URL &
+           sleep 2
+           clear
+           ;;
+    esac
+  done
+
+}
+
+
+music $1
