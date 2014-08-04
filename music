@@ -18,10 +18,12 @@ function music() {
     echo -e "| IR109 - a csirkek radioja |"
     echo -e "| FM 14.04       DJ Bash    |"
     echo -e "+---------------------------+${cOFF}"
-    echo -e " | ${Green}Hangero:\t [ + / - ]${cOFF} |"
-    echo -e " | ${Red}Csondet!:\t [   s   ]${cOFF} |"
-    echo -e " | ${Red}Kilepes:\t [   q   ]${cOFF} |"
-    echo -e " | ${Yellow}Uj zene:\t [   n   ]${cOFF} |"
+    echo -e " | ${Green}Hangero:\t\t\t [ + / - ]${cOFF} |"
+    echo -e " | ${Red}Csondet!:\t\t\t [   s   ]${cOFF} |"
+    echo -e " | ${Red}Kilepes (zene is leall):\t [   q   ]${cOFF} |"
+    echo -e " | ${Red}Kilepes (zene marad) :\t [   x   ]${cOFF} |"
+    echo -e " | ${Yellow}Uj zene:\t\t\t [   n   ]${cOFF} |"
+
     read -s -r -n1 CHAR
     case $CHAR in
        +|-)
@@ -33,6 +35,10 @@ function music() {
        q)
            kill -9 $(ps aux | grep "[c]hrome" | awk '{print $2}')
 	   clear
+           return
+           ;;
+       x)
+           clear
            return
            ;;
        n)
